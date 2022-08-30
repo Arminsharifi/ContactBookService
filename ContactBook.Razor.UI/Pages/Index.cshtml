@@ -1,0 +1,29 @@
+﻿@page
+@model IndexModel
+@{
+    ViewData["Title"] = "Contact Book";
+}
+
+<div class="table-responsive">
+    <table class="table table-dark">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Full Name</th>
+                <th>Phone Number</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @for (int i = 1; i < @Model.lstContacts.Count + 1; i++)
+            {
+                <tr>
+                    <td>@i</td>
+                    <td>@Model.lstContacts[i-1].FullName</td>
+                    <td>@Model.lstContacts[i-1].PhoneNumber</td>
+                    <td><a class="btn btn-danger" asp-page-handler="Delete" asp-route-id="@Model.lstContacts[i-1].Id">Delete</a>  &nbsp; <a class="btn btn-success" asp-page="Update" asp-route-id="@Model.lstContacts[i-1].Id">Update</a> </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

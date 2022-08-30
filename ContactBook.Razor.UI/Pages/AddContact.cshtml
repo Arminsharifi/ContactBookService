@@ -1,0 +1,31 @@
+﻿@page
+@model ContactBook.Razor.UI.Pages.AddContactModel
+@{
+    ViewData["Title"] = "Add a Contact";
+}
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-9">
+            <form role="form" method="post">
+                <div class="form-group">
+                    <label asp-for="@Model.contact.FullName" class="text-white">
+                        Name :
+                    </label>
+                    <input type="text" class="form-control" asp-for="@Model.contact.FullName" />
+                </div>
+                <br />
+                <div class="form-group">
+                    <label asp-for="@Model.contact.PhoneNumber" class="text-white">
+                        Phone Number :
+                    </label>
+                    <input type="text" class="form-control" asp-for="@Model.contact.PhoneNumber" />
+                </div>
+                <br />
+                <button type="submit" class="btn btn-primary"> Submit </button>
+            </form>
+        </div>
+        <div class="col-md-3">
+        </div>
+    </div>
+</div>
