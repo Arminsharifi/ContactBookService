@@ -2,28 +2,43 @@ using ContactBook.Razor.UI.BLL;
 using ContactBook.Razor.UI.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Newtonsoft.Json;
 
 namespace ContactBook.Razor.UI.Pages
 {
     public class UpdateModel : PageModel
     {
         public Contact contact = new Contact();
-        private static Contact Savedcontact = new Contact();
 
         public void OnGet(int Id)
         {
             contact = new ContactBLL().Get(Id);
-            Savedcontact = contact;
+            SaveSessionContact(contact);
         }
 
         public IActionResult OnPost(Contact contact)
         {
-            contact.Id = Savedcontact.Id;
+            contact.Id = GetSessionContact().Id;
             if (ModelState.IsValid)
             {
                 if (new ContactBLL().Update(contact)) return RedirectToPage("Index");
             }
             return Page();
+        }
+
+        private Contact GetSessionContact()
+        {
+            string? ContactJson = HttpContext.Session.GetString("Contact");
+            if (string.IsNullOrWhiteSpace(ContactJson))
+            {
+                return new Contact();
+            }
+            else return JsonConvert.DeserializeObject<Contact>(ContactJson);
+        }
+
+        private void SaveSessionContact(Contact contact)
+        {
+            HttpContext.Session.SetString("Contact", JsonConvert.SerializeObject(contact));
         }
     }
 }
