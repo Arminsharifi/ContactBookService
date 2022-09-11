@@ -18,7 +18,7 @@ namespace ContactBook.Razor.UI.Pages
 
         public IActionResult OnPost(Contact contact)
         {
-            contact.Id = GetSessionContact().Id;
+            contact.Id = HttpContext.Session.GetJson<Contact>("Contact").Id;
             if (ModelState.IsValid)
             {
                 if (new ContactBLL().Update(contact)) return RedirectToPage("Index");
@@ -26,19 +26,9 @@ namespace ContactBook.Razor.UI.Pages
             return Page();
         }
 
-        private Contact GetSessionContact()
-        {
-            string? ContactJson = HttpContext.Session.GetString("Contact");
-            if (string.IsNullOrWhiteSpace(ContactJson))
-            {
-                return new Contact();
-            }
-            else return JsonConvert.DeserializeObject<Contact>(ContactJson);
-        }
-
         private void SaveSessionContact(Contact contact)
         {
-            HttpContext.Session.SetString("Contact", JsonConvert.SerializeObject(contact));
+            HttpContext.Session.SetJson("Contact", contact);
         }
     }
 }

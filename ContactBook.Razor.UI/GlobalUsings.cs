@@ -1,0 +1,1 @@
+﻿global using ContactBook.Razor.UI.Extensions;
